@@ -1,0 +1,12 @@
+room_id,room_number,room_type,price_per_night,status
+R001,101,Single,2500,Available
+R002,102,Single,2500,Booked
+R003,201,Double,4000,Available
+R004,202,Double,4000,Available
+R005,203,Double,4000,Available
+R006,301,Deluxe,6000,Available
+R007,302,Deluxe,6000,Booked
+R008,401,Suite,9500,Available
+R009,402,Suite,9500,Available
+R010,103,Single,2500,Maintenance
+R011,108,Deluxe,19000,Available

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Bookings{% endblock %}
+{% block heading %}Booking Management{% endblock %}
+{% block content %}
+<div class="panel">
+  <h2>{{ 'Update booking ' ~ edit.booking_id if edit else 'Create a booking' }}</h2>
+  {% if customers and rooms %}
+  <form class="row" method="post" action="{{ url_for('bookings_save') }}">
+    <input type="hidden" name="booking_id" value="{{ edit.booking_id if edit else '' }}">
+    <label>Customer<select name="customer_id">{% for c in customers %}<option value="{{ c.customer_id }}" {{ 'selected' if edit and edit.customer_id == c.customer_id }}>{{ c.customer_id }} - {{ c.customer_name }}</option>{% endfor %}</select></label>
+    <label>Room<select name="room_id">{% for r in rooms %}<option value="{{ r.room_id }}" {{ 'selected' if edit and edit.room_id == r.room_id }}>{{ r.room_number }} {{ r.room_type }} ({{ r.price_per_night|money }})</option>{% endfor %}</select></label>
+    <label>Check-in<input type="date" name="check_in" required {{ '' if edit else 'min=' ~ today }} value="{{ edit.check_in if edit else '' }}"></label>
+    <label>Check-out<input type="date" name="check_out" required value="{{ edit.check_out if edit else '' }}"></label>
+    {% if edit %}<label>Status<select name="booking_status">{% for s in statuses %}<option {{ 'selected' if edit.booking_status == s }}>{{ s }}</option>{% endfor %}</select></label>{% endif %}
+    <button class="btn" type="submit">{{ 'Save changes' if edit else 'Create booking' }}</button>
+    {% if edit %}<a class="btn line" href="{{ url_for('bookings') }}">Cancel</a>{% endif %}
+  </form>
+  <p class="note">Total cost = price per night x number of nights. A room cannot be booked twice for overlapping dates.</p>
+  {% else %}<p class="empty">Add at least one room and one customer before creating bookings.</p>{% endif %}
+</div>
+<div class="panel">
+  <form class="row" method="get"><label>Status<select name="status"><option value="">All</option>{% for s in statuses %}<option {{ 'selected' if status == s }}>{{ s }}</option>{% endfor %}</select></label><button class="btn line" type="submit">Filter</button></form>
+</div>
+<div class="panel table-wrap">
+  {% if bookings %}
+  <table><tr><th>ID</th><th>Customer</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Status</th><th>Total</th><th>Actions</th></tr>
+  {% for b in bookings %}<tr><td>{{ b.booking_id }}</td><td>{{ b.customer_id }} {{ b.customer_name }}</td><td>{{ b.room_number }}</td><td>{{ b.check_in }}</td><td>{{ b.check_out }}</td><td>{{ b.nights }}</td><td><span class="tag {{ b.booking_status }}">{{ b.booking_status }}</span></td><td>{{ b.total_amount|money }}</td>
+    <td><a class="btn small line" href="{{ url_for('bookings', edit=b.booking_id) }}">Edit</a>
+    {% if b.booking_status != 'Cancelled' %}<form method="post" action="{{ url_for('bookings_cancel', bid=b.booking_id) }}"><button class="btn small danger" type="submit">Cancel</button></form>{% endif %}</td></tr>{% endfor %}
+  </table>
+  {% else %}<p class="empty">No bookings yet. Create the first booking above.</p>{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Dashboard{% endblock %} | Smart Hotel</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="app">
+<input type="checkbox" id="nav-toggle" class="nav-toggle">
+<header class="topbar"><label for="nav-toggle" class="burger" aria-label="Open menu" style="min-width:0;flex:none">&#9776;</label><a class="brand" href="{{ url_for('dashboard') }}"><span class="logo">H</span>Smart Hotel</a></header>
+<aside class="sidebar">
+  <a class="brand" href="{{ url_for('dashboard') }}"><span class="logo">H</span>Smart Hotel</a>
+  {% for ep, label in [('dashboard','Dashboard'),('rooms','Rooms'),('bookings','Bookings'),('customers','Customers'),('billing','Billing'),('analytics','Analytics'),('index','Back to Home')] %}
+  <a class="link {{ 'active' if request.endpoint == ep }}" href="{{ url_for(ep) }}">{{ label }}</a>
+  {% endfor %}
+</aside>
+<main class="content">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, text in messages %}<div class="msg {{ cat }}" role="alert">{{ text }}</div>{% endfor %}
+  {% endwith %}
+  <h1>{% block heading %}{% endblock %}</h1>
+  {% block content %}{% endblock %}
+  <p class="sample">All records are sample hotel data for a student project, not real customer information.</p>
+</main>
+</body>
+</html>

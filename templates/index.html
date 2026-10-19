@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Hotel Management & Analytics System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<nav class="nav">
+  <a class="brand" href="#home"><span class="logo">H</span>Smart Hotel</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="burger" aria-label="Open menu" style="order:3;min-width:0;flex:none">&#9776;</label>
+  <ul>
+    <li><a href="#home">Home</a></li><li><a href="#about">About Project</a></li><li><a href="#team">Our Team</a></li><li><a href="#features">Features</a></li>
+    <li><a class="btn small" href="{{ url_for('dashboard') }}">Get Started</a></li>
+  </ul>
+</nav>
+<header class="hero" id="home"><div class="inner">
+  <h1>Smart Hotel Management &amp; Analytics System</h1>
+  <p>Manage hotel rooms, bookings, customers, and billing in one place while exploring your hotel business data through interactive analytics and visual reports.</p>
+  <a class="btn ghost" href="#about">Explore Project</a><a class="btn" href="{{ url_for('dashboard') }}">Get Started</a>
+</div></header>
+
+<section class="block" id="about">
+  <h2>About our project</h2>
+  <p class="lead">This semester project helps hotel staff keep track of rooms, guests, bookings, and payments, and then turns those records into charts that show how the hotel is performing.</p>
+  <div class="grid">
+    <div class="card"><h3>Objectives</h3><p>Replace paper registers with one simple system, avoid double bookings, calculate bills automatically, and show business results as charts.</p></div>
+    <div class="card"><h3>Python and Flask</h3><p>Core Python holds the logic. Flask connects each web page to the code with routes.</p></div>
+    <div class="card"><h3>Pandas and CSV</h3><p>Records are stored in CSV files. Pandas reads, filters, updates, and summarises them.</p></div>
+    <div class="card"><h3>NumPy</h3><p>NumPy arrays do the number work, such as totals, averages, and booking cost.</p></div>
+    <div class="card"><h3>Matplotlib and Seaborn</h3><p>These libraries draw the charts that appear on the Analytics page.</p></div>
+  </div>
+</section>
+
+<div class="band"><section class="block" id="team">
+  <h2>Our team</h2>
+  <div class="grid team">
+    {% for name, link in links.items() %}
+    <div class="card"><div class="avatar">{{ name.split()[0][0] }}{{ name.split()[1][0] }}</div><h3>{{ name }}</h3>
+      <a class="btn small line" href="{{ link }}">View Portfolio</a>
+      {% if link == '#' %}<p class="note"></p>{% endif %}</div>
+    {% endfor %}
+  </div>
+</section></div>
+
+<section class="block" id="features">
+  <h2>Project features</h2>
+  <div class="grid">
+    <div class="card"><h3>Room Management</h3><p>Add, edit, delete, and filter rooms by status and type.</p></div>
+    <div class="card"><h3>Booking Management</h3><p>Create and cancel bookings with date checks and automatic cost.</p></div>
+    <div class="card"><h3>Customer Management</h3><p>Keep guest details and search by name or ID.</p></div>
+    <div class="card"><h3>Billing Management</h3><p>Room and extra charges, final bill, and Paid or Pending records.</p></div>
+    <div class="card"><h3>Business Analytics</h3><p>Revenue, bookings, and payment charts from your real CSV data.</p></div>
+  </div>
+</section>
+
+<footer class="site">
+  <p><strong>Smart Hotel Management &amp; Analytics System</strong></p>
+  <p>Team: Zamin Zahoor and Paul Zeeshan</p>
+  <p>An academic semester project built with Python, Pandas, NumPy, Matplotlib, Seaborn, Flask, HTML, CSS, and CSV files. All data is sample data.</p>
+</footer>
+</body>
+</html>

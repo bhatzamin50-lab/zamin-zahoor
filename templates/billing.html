@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Billing{% endblock %}
+{% block heading %}Billing Management{% endblock %}
+{% block content %}
+<div class="panel">
+  <h2>Create a bill</h2>
+  {% if options %}
+  <form class="row" method="post" action="{{ url_for('billing_add') }}">
+    <label>Booking<select name="booking_id">{% for b in options %}<option value="{{ b.booking_id }}">{{ b.booking_id }} - {{ b.customer_name }} ({{ b.total_amount|money }})</option>{% endfor %}</select></label>
+    <label>Additional charges (₹, optional)<input type="number" name="additional_charges" min="0" step="0.01" value="0"></label>
+    <button class="btn" type="submit">Create bill</button>
+  </form>
+  <p class="note">Room charges are taken from the booking. Final bill = room charges + additional charges.</p>
+  {% else %}<p class="empty">Every active booking already has a bill.</p>{% endif %}
+</div>
+<div class="panel table-wrap">
+  <h2>Billing history</h2>
+  {% if bills %}
+  <table><tr><th>Bill ID</th><th>Booking</th><th>Customer</th><th>Room charges</th><th>Additional</th><th>Total bill</th><th>Payment</th><th>Paid on</th><th>Action</th></tr>
+  {% for b in bills %}<tr><td>{{ b.bill_id }}</td><td>{{ b.booking_id }}</td><td>{{ b.customer_name }}</td><td>{{ b.room_charges|money }}</td><td>{{ b.additional_charges|money }}</td><td><b>{{ b.total_bill|money }}</b></td><td><span class="tag {{ b.payment_status }}">{{ b.payment_status }}</span></td><td>{{ b.payment_date or '-' }}</td>
+    <td><form method="post" action="{{ url_for('billing_status', bill_id=b.bill_id) }}">
+      <input type="hidden" name="status" value="{{ 'Pending' if b.payment_status == 'Paid' else 'Paid' }}">
+      <button class="btn small line" type="submit">Mark {{ 'Pending' if b.payment_status == 'Paid' else 'Paid' }}</button></form></td></tr>{% endfor %}
+  </table>
+  {% else %}<p class="empty">No bills yet. Create one from a booking above.</p>{% endif %}
+</div>
+<p class="note">This records payments only. No real online payments are processed.</p>
+{% endblock %}

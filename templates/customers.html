@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Customers{% endblock %}
+{% block heading %}Customer Management{% endblock %}
+{% block content %}
+<div class="panel">
+  <h2>{{ 'Edit ' ~ edit.customer_name if edit else 'Add a customer' }}</h2>
+  <form class="row" method="post" action="{{ url_for('customers_save') }}">
+    <input type="hidden" name="customer_id" value="{{ edit.customer_id if edit else '' }}">
+    <label>Name<input name="customer_name" required value="{{ edit.customer_name if edit else '' }}"></label>
+    <label>Phone<input name="phone" required value="{{ edit.phone if edit else '' }}"></label>
+    <label>Email<input name="email" type="email" required value="{{ edit.email if edit else '' }}"></label>
+    <label>Address<input name="address" value="{{ edit.address if edit else '' }}"></label>
+    <button class="btn" type="submit">{{ 'Save changes' if edit else 'Add customer' }}</button>
+    {% if edit %}<a class="btn line" href="{{ url_for('customers') }}">Cancel</a>{% endif %}
+  </form>
+</div>
+<div class="panel">
+  <form class="row" method="get"><label>Search by name or ID<input name="q" value="{{ q }}" placeholder="e.g. Ayesha or C003"></label><button class="btn line" type="submit">Search</button></form>
+</div>
+<div class="panel table-wrap">
+  {% if customers %}
+  <table><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Actions</th></tr>
+  {% for c in customers %}<tr><td>{{ c.customer_id }}</td><td>{{ c.customer_name }}</td><td>{{ c.phone }}</td><td>{{ c.email }}</td><td>{{ c.address }}</td>
+    <td><a class="btn small line" href="{{ url_for('customers', edit=c.customer_id) }}">Edit</a>
+    <form method="post" action="{{ url_for('customers_delete', cid=c.customer_id) }}"><button class="btn small danger" type="submit">Delete</button></form></td></tr>{% endfor %}
+  </table>
+  {% else %}<p class="empty">No customers found. Try another search or add a customer above.</p>{% endif %}
+</div>
+{% endblock %}

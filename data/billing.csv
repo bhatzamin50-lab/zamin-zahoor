@@ -1,0 +1,9 @@
+bill_id,booking_id,customer_name,room_charges,additional_charges,total_bill,payment_status,payment_date
+BL001,B001,Ayesha Khan,1200,500,1250,Paid,2026-08-08
+BL002,B002,Rohan Mehta,500,0,500,Paid,2026-08-22
+BL003,B003,Sana Iqbal,2400,1500,2550,Paid,2026-09-06
+BL004,B004,Imran Malik,2850,2000,3000,Paid,2026-09-18
+BL005,B010,Rohan Mehta,1200,0,1200,Paid,2026-10-13
+BL006,B006,Vikram Singh,1000,0,1000,Pending,
+BL007,B007,Ayesha Khan,2400,800,2800,Pending,
+BL008,B009,Arjun Verma,2850,6000,3500,Pending,

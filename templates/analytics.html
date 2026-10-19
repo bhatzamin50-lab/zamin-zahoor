@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Analytics{% endblock %}
+{% block heading %}Business Analytics{% endblock %}
+{% block content %}
+<div class="stats">{% for label, value in summary.items() %}<div class="stat"><b>{{ value }}</b><span>{{ label }}</span></div>{% endfor %}</div>
+{% set items = [('rooms','Available vs booked rooms','No rooms to chart yet.'),('revenue','Revenue by month','No paid bills yet, so there is no revenue to chart.'),('types','Bookings by room type','No bookings yet.'),('booking_status','Booking status','No bookings yet.'),('payment','Payment status','No bills yet.')] %}
+<div class="charts" style="margin-top:24px">
+{% for key, title, empty in items %}
+  <div class="panel"><h2>{{ title }}</h2>
+  {% if charts.get(key) %}<img src="{{ url_for('static', filename='charts/' ~ charts[key]) }}?v={{ stamp }}" alt="{{ title }} chart">{% else %}<p class="empty">{{ empty }}</p>{% endif %}</div>
+{% endfor %}
+</div>
+{% endblock %}

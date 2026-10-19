@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="stats">
+  {% for label, value in stats.items() %}<div class="stat"><b>{{ value }}</b><span>{{ label }}</span></div>{% endfor %}
+</div>
+<div class="panel" style="margin-top:24px">
+  <h2>Quick actions</h2>
+  <a class="btn small" href="{{ url_for('bookings') }}">New booking</a>
+  <a class="btn small line" href="{{ url_for('customers') }}">Add customer</a>
+  <a class="btn small line" href="{{ url_for('analytics') }}">View analytics</a>
+</div>
+<p class="lead">Revenue counts bills marked Paid. Available rooms are worked out from today's bookings.</p>
+{% endblock %}
